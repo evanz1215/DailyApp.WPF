@@ -70,4 +70,22 @@ public class LoginUCViewModel : BindableBase, IDialogAware
     {
         this.SelectedIndex = 1;
     }
+
+    /// <summary>
+    /// 密碼
+    /// </summary>
+    private string _pwd;
+
+    /// <summary>
+    /// 密碼
+    /// </summary>
+    public string Pwd
+    {
+        get { return _pwd; }
+        set
+        {
+            _pwd = value;
+            RaisePropertyChanged();
+        }
+    }
 }
