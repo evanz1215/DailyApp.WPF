@@ -1,5 +1,7 @@
-﻿using DailyApp.WPF.ViewModels;
+﻿using DailyApp.WPF.HttpClients;
+using DailyApp.WPF.ViewModels;
 using DailyApp.WPF.Views;
+using DryIoc;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Services.Dialogs;
@@ -24,6 +26,7 @@ public partial class App : PrismApplication
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
         containerRegistry.RegisterDialog<LoginUC, LoginUCViewModel>();
+        containerRegistry.GetContainer().Register<HttpRestClient>(made: Parameters.Of.Type<string>(serviceKey: "webUrl"));
     }
 
     /// <summary>
