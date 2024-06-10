@@ -5,17 +5,17 @@ namespace DailyApp.WPF.HttpClients;
 
 public class HttpRestClient
 {
-    private readonly string baseUrl = "https://localhost:7265/api/";
+    private readonly string baseUrl = "http://localhost:5017/api/";
+    private readonly RestClient _client;
 
     public HttpRestClient()
     {
+        _client = new RestClient();
     }
 
     public ApiResponse Execute(ApiRequest apiRequest)
     {
-        var client = new RestClient($"{baseUrl}{apiRequest.Route}");
-
-        var request = new RestRequest(apiRequest.Route, apiRequest.Method);
+        RestRequest request = new RestRequest(apiRequest.Method);
         request.AddHeader("Content-Type", apiRequest.ContentType);
 
         if (apiRequest.Parameters != null)
@@ -23,7 +23,8 @@ public class HttpRestClient
             request.AddParameter("param", JsonConvert.SerializeObject(apiRequest.Parameters), ParameterType.RequestBody);
         }
 
-        var res = client.Execute(request);
+        _client.BaseUrl = new Uri(baseUrl + apiRequest.Route);
+        var res = _client.Execute(request);
 
         if (res.StatusCode == System.Net.HttpStatusCode.OK)
         {
