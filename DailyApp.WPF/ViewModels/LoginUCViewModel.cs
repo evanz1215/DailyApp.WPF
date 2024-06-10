@@ -41,7 +41,32 @@ public class LoginUCViewModel : BindableBase, IDialogAware
     private void LoginHandler()
     {
         // 模擬登入成功
-        RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+        //RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+
+        if (string.IsNullOrWhiteSpace(this.Account) || string.IsNullOrWhiteSpace(this.Pwd))
+        {
+            _eventAggregator.GetEvent<MsgEvent>().Publish("請輸入帳號密碼");
+            return;
+        }
+
+        ApiRequest apiRequest = new ApiRequest();
+        apiRequest.Method = RestSharp.Method.GET;
+        apiRequest.Route = $"Account/login?account={this.Account}&password={Md5Hepler.GetMd5(this.Pwd)}";
+
+        var response = _httpRestClient.Execute(apiRequest);
+
+        if (response.ResultCode == 1)
+        {
+            //MessageBox.Show(response.Msg);
+            _eventAggregator.GetEvent<MsgEvent>().Publish(response.Msg);
+            RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+        }
+        else
+        {
+            //MessageBox.Show(response.Msg);
+            _eventAggregator.GetEvent<MsgEvent>().Publish(response.Msg);
+        }
+
     }
 
     /// <summary>
@@ -147,6 +172,19 @@ public class LoginUCViewModel : BindableBase, IDialogAware
             RaisePropertyChanged();
         }
     }
+
+    private string _account;
+
+    public string Account
+    {
+        get { return _account; }
+        set
+        {
+            _account = value;
+            RaisePropertyChanged();
+        }
+    }
+
 
     private AccountInfoDto _accountInfoDto;
 

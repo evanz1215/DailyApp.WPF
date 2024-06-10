@@ -32,10 +32,11 @@ public class HttpRestClient
         }
         else
         {
+            ApiResponse? apiResponse = JsonConvert.DeserializeObject<ApiResponse>(res.Content);
             return new ApiResponse
             {
                 ResultCode = -1,
-                Msg = res.ErrorMessage
+                Msg = apiResponse.Msg
             };
         }
     }
