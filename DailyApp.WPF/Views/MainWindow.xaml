@@ -30,7 +30,8 @@
                 <materialDesign:ColorZone Padding="16"
                                 materialDesign:ElevationAssist.Elevation="Dp4"
                                 DockPanel.Dock="Top"
-                                Mode="PrimaryMid">
+                                Mode="PrimaryMid"
+                                MouseDoubleClick="ColorZone_MouseDoubleClick">
                     <DockPanel LastChildFill="True">
                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                             <Image Source="/Assets/user.jpg" Height="25" Width="25">
@@ -39,9 +40,9 @@
                                 </Image.Clip>
                             </Image>
 
-                            <Button x:Name="btnMin" Content="—" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="btnMin_Click"/>
-                            <Button x:Name="btnMax" Content="☐" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="btnMax_Click"/>
-                            <Button x:Name="btnClose" Content="✕" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="btnClose_Click"/>
+                            <Button x:Name="btnMin" Content="—" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="btnMin_Click" />
+                            <Button x:Name="btnMax" Content="☐" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="btnMax_Click" />
+                            <Button x:Name="btnClose" Content="✕" Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="btnClose_Click" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
