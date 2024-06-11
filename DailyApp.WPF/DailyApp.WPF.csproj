@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Assets\login.png" />
     <Resource Include="Assets\user.jpg" />
     <Resource Include="Assets\wind.png" />
