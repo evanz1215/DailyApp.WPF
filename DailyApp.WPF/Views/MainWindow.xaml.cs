@@ -60,4 +60,15 @@ public partial class MainWindow : Window
             WindowState = WindowState.Maximized;
         }
     }
+
+
+    /// <summary>
+    /// 左側菜單選項改變後關閉菜單(可以用command寫)
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void lbMenu_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        drawerHost.IsLeftDrawerOpen = false;
+    }
 }

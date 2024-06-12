@@ -27,6 +27,13 @@ public partial class App : PrismApplication
     {
         containerRegistry.RegisterDialog<LoginUC, LoginUCViewModel>();
         containerRegistry.GetContainer().Register<HttpRestClient>(made: Parameters.Of.Type<string>(serviceKey: "webUrl"));
+
+        containerRegistry.RegisterForNavigation<HomeUC, HomeUCViewModel>();
+        containerRegistry.RegisterForNavigation<WaitUC, WaitUCViewModel>();
+        containerRegistry.RegisterForNavigation<MemoUC, MemoUCViewModel>();
+        containerRegistry.RegisterForNavigation<SettingUC, SettingUCViewModel>();
+
+
     }
 
     /// <summary>

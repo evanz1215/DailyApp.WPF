@@ -1,14 +1,25 @@
 ﻿using DailyApp.WPF.Models;
+using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 
 namespace DailyApp.WPF.ViewModels;
 
 public class MainWindowViewModel : BindableBase
 {
-    public MainWindowViewModel()
+    private readonly IRegionManager _regionManager;
+    private IRegionNavigationJournal _journal;
+
+    public MainWindowViewModel(IRegionManager regionManager, IRegionNavigationJournal journal)
     {
+        _regionManager = regionManager;
         LeftMenuList = new List<LeftMenuInfo>();
         this.CreateMenu();
+        NavigateComm = new DelegateCommand<LeftMenuInfo>(NavigateHandler);
+        _journal = journal;
+
+        GoBackComm = new DelegateCommand(GoBackHandler);
+        GoForwardComm = new DelegateCommand(GoForwardHandler);
     }
 
     #region 左側菜單
@@ -32,9 +43,47 @@ public class MainWindowViewModel : BindableBase
     /// </summary>
     private void CreateMenu()
     {
-        LeftMenuList.Add(new LeftMenuInfo() { Icon = "Home", MenuName = "首頁", ViewName = "IndexView" });
-        LeftMenuList.Add(new LeftMenuInfo() { Icon = "NotebookOutline", MenuName = "代辦事項", ViewName = "Waitiew" });
-        LeftMenuList.Add(new LeftMenuInfo() { Icon = "NotebookPlus", MenuName = "備忘錄", ViewName = "MemoView" });
-        LeftMenuList.Add(new LeftMenuInfo() { Icon = "Cog", MenuName = "設置", ViewName = "SettingView" });
+        LeftMenuList.Add(new LeftMenuInfo() { Icon = "Home", MenuName = "首頁", ViewName = "HomeUC" });
+        LeftMenuList.Add(new LeftMenuInfo() { Icon = "NotebookOutline", MenuName = "代辦事項", ViewName = "WaitUC" });
+        LeftMenuList.Add(new LeftMenuInfo() { Icon = "NotebookPlus", MenuName = "備忘錄", ViewName = "MemoUC" });
+        LeftMenuList.Add(new LeftMenuInfo() { Icon = "Cog", MenuName = "設置", ViewName = "SettingUC" });
     }
+
+    #region 區域導航
+
+    public DelegateCommand<LeftMenuInfo> NavigateComm { get; set; }
+    public DelegateCommand GoBackComm { get; private set; }
+    public DelegateCommand GoForwardComm { get; private set; }
+
+    private void NavigateHandler(LeftMenuInfo leftMenuInfo)
+    {
+        if (leftMenuInfo == null || string.IsNullOrWhiteSpace(leftMenuInfo.ViewName))
+        {
+            return;
+        }
+
+        // 紀錄導航
+        _regionManager.RequestNavigate("MainViewRegion", leftMenuInfo.ViewName, (callback) =>
+        {
+            _journal = callback.Context.NavigationService.Journal;
+        });
+    }
+
+    private void GoBackHandler()
+    {
+        if (_journal != null && _journal.CanGoBack)
+        {
+            _journal.GoBack();
+        }
+    }
+
+    private void GoForwardHandler()
+    {
+        if (_journal != null && _journal.CanGoForward)
+        {
+            _journal.GoForward();
+        }
+    }
+
+    #endregion 區域導航
 }
