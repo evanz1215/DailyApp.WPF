@@ -1,10 +1,13 @@
 ﻿using DailyApp.WPF.HttpClients;
+using DailyApp.WPF.Services;
 using DailyApp.WPF.ViewModels;
 using DailyApp.WPF.Views;
 using DryIoc;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Services.Dialogs;
+using System.Net.Http;
 using System.Windows;
 
 namespace DailyApp.WPF;
@@ -33,7 +36,23 @@ public partial class App : PrismApplication
         containerRegistry.RegisterForNavigation<MemoUC, MemoUCViewModel>();
         containerRegistry.RegisterForNavigation<SettingUC, SettingUCViewModel>();
 
+        // containerRegistry.RegisterSingleton<HttpClient>();
 
+        var services = new ServiceCollection();
+
+        services.AddHttpClient("GitHub", httpClient =>
+        {
+            httpClient.BaseAddress = new Uri("https://api.github.com/");
+        });
+
+        // 构建 ServiceProvider
+        var serviceProvider = services.BuildServiceProvider();
+
+        // 注册 HttpClientFactory
+        containerRegistry.RegisterInstance(serviceProvider.GetRequiredService<IHttpClientFactory>());
+
+        // 注册 HttpClientService 并传递 HttpClientFactory
+        containerRegistry.Register<IHttpClientService, HttpClientService>();
     }
 
     /// <summary>

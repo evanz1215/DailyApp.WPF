@@ -1,4 +1,5 @@
 ﻿using DailyApp.WPF.Models;
+using DailyApp.WPF.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -9,8 +10,9 @@ public class MainWindowViewModel : BindableBase
 {
     private readonly IRegionManager _regionManager;
     private IRegionNavigationJournal _journal;
+    private readonly IHttpClientService _httpClientService;
 
-    public MainWindowViewModel(IRegionManager regionManager, IRegionNavigationJournal journal)
+    public MainWindowViewModel(IRegionManager regionManager, IRegionNavigationJournal journal, IHttpClientService httpClientService)
     {
         _regionManager = regionManager;
         LeftMenuList = new List<LeftMenuInfo>();
@@ -20,6 +22,9 @@ public class MainWindowViewModel : BindableBase
 
         GoBackComm = new DelegateCommand(GoBackHandler);
         GoForwardComm = new DelegateCommand(GoForwardHandler);
+        _httpClientService = httpClientService;
+
+        _httpClientService.GetAsync("GitHub", "/api/sss");
     }
 
     #region 左側菜單
