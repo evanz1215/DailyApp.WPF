@@ -24,7 +24,7 @@ public class MainWindowViewModel : BindableBase
         GoForwardComm = new DelegateCommand(GoForwardHandler);
         _httpClientService = httpClientService;
 
-        _httpClientService.GetAsync("GitHub", "/api/sss");
+        //_httpClientService.GetAsync("GitHub", "/api/sss");
     }
 
     #region 左側菜單

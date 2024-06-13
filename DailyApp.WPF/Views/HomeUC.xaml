@@ -25,9 +25,22 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border Background="{Binding BackColor}" CornerRadius="5" Margin="10">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect BlurRadius="10" Color="#dddddd" ShadowDepth="1"></DropShadowEffect>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
                         <Grid>
                             <StackPanel Orientation="Vertical" Margin="20,10">
-                                <md:PackIcon Kind="{Binding Icon}" Height="30" Width="30" Margin="15,0"></md:PackIcon>
+                                <md:PackIcon Kind="{Binding Icon}" Height="30" Width="30" ></md:PackIcon>
                                 <TextBlock Text="{Binding ItemName}" Margin="0,15" FontSize="15" ></TextBlock>
                                 <TextBlock Text="{Binding Result}" Margin="0,15" FontSize="40" FontWeight="Bold"></TextBlock>
                             </StackPanel>
@@ -50,24 +63,51 @@
 
             <Border CornerRadius="5" Margin="10,0" Opacity="0.1" Background="#bebebebe"></Border>
             <DockPanel Margin="10,0">
-                <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                <DockPanel DockPanel.Dock="Top" Margin="10,5" LastChildFill="False">
                     <TextBlock Text="代辦事項" DockPanel.Dock="Left" FontSize="20" FontWeight="Bold"></TextBlock>
                     <Button Width="30" Height="30" DockPanel.Dock="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionSecondaryButton}">
                         <md:PackIcon Kind="Add"></md:PackIcon>
                     </Button>
                 </DockPanel>
-                <ListBox></ListBox>
+                <ListBox ItemsSource="{Binding WaitList}" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel MaxHeight="80" LastChildFill="False">
+                                <ToggleButton DockPanel.Dock="Right"></ToggleButton >
+                                <StackPanel Orientation="Vertical" DockPanel.Dock="Left">
+                                    <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding Content}" Opacity="0.5" Margin="0,5"></TextBlock>
+                                </StackPanel>
+
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </DockPanel>
 
             <Border Grid.Column="1" CornerRadius="5" Margin="10,0" Opacity="0.1" Background="#bebebebe"></Border>
             <DockPanel Grid.Column="1" Margin="10,0">
                 <DockPanel DockPanel.Dock="Top" LastChildFill="False">
-                    <TextBlock Text="代辦事項" DockPanel.Dock="Left" FontSize="20" FontWeight="Bold"></TextBlock>
+                    <TextBlock Text="備忘錄" DockPanel.Dock="Left" FontSize="20" FontWeight="Bold"></TextBlock>
                     <Button Width="30" Height="30" DockPanel.Dock="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionSecondaryButton}">
                         <md:PackIcon Kind="Add"></md:PackIcon>
                     </Button>
                 </DockPanel>
-                <ListBox></ListBox>
+
+                <ListBox ItemsSource="{Binding MemoList}" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel MaxHeight="80" LastChildFill="False">
+                                <ToggleButton DockPanel.Dock="Right"></ToggleButton >
+                                <StackPanel Orientation="Vertical" DockPanel.Dock="Left">
+                                    <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding Content}" Opacity="0.5" Margin="0,5"></TextBlock>
+                                </StackPanel>
+
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </DockPanel>
         </Grid>
     </Grid>

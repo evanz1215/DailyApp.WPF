@@ -40,7 +40,7 @@ public partial class App : PrismApplication
 
         var services = new ServiceCollection();
 
-        services.AddHttpClient("GitHub", httpClient =>
+        services.AddHttpClient("LocalAPI", httpClient =>
         {
             httpClient.BaseAddress = new Uri("https://api.github.com/");
         });
