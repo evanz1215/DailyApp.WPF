@@ -49,7 +49,7 @@ public class MainWindowViewModel : BindableBase
     private void CreateMenu()
     {
         LeftMenuList.Add(new LeftMenuInfo() { Icon = "Home", MenuName = "首頁", ViewName = "HomeUC" });
-        LeftMenuList.Add(new LeftMenuInfo() { Icon = "NotebookOutline", MenuName = "代辦事項", ViewName = "WaitUC" });
+        LeftMenuList.Add(new LeftMenuInfo() { Icon = "NotebookOutline", MenuName = "待辦事項", ViewName = "WaitUC" });
         LeftMenuList.Add(new LeftMenuInfo() { Icon = "NotebookPlus", MenuName = "備忘錄", ViewName = "MemoUC" });
         LeftMenuList.Add(new LeftMenuInfo() { Icon = "Cog", MenuName = "設置", ViewName = "SettingUC" });
     }
