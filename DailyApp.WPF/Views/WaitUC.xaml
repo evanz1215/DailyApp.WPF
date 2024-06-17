@@ -7,54 +7,76 @@
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="15,0,0,0">
-            <TextBox VerticalAlignment="Center" md:HintAssist.Hint="查找待辦事項..." md:TextFieldAssist.HasClearButton="True"></TextBox>
-            <TextBlock Text="篩選:" Margin="10,0" VerticalAlignment="Center"></TextBlock>
-            <ComboBox SelectedIndex="0">
-                <ComboBoxItem Content="全部"></ComboBoxItem>
-                <ComboBoxItem Content="待辦"></ComboBoxItem>
-                <ComboBoxItem Content="已完成"></ComboBoxItem>
-            </ComboBox>
-        </StackPanel>
-        <Button Content="添加待辦事項" HorizontalAlignment="Right" Margin="10,5"></Button>
+    <md:DialogHost>
+        <md:DrawerHost IsRightDrawerOpen="{Binding IsShowAddWait}">
+            <md:DrawerHost.RightDrawerContent>
+                <DockPanel Width="300" LastChildFill="False">
+                    <TextBlock Text="添加待辦" FontSize="20" FontWeight="Bold" Margin="20,10" DockPanel.Dock="Top"></TextBlock>
+                    <StackPanel Orientation="Horizontal" Margin="20" DockPanel.Dock="Top">
+                        <TextBlock Text="狀態:" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
+                        <ComboBox SelectedIndex="0">
+                            <ComboBoxItem Content="待辦"></ComboBoxItem>
+                            <ComboBoxItem Content="已完成"></ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
 
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding WaitList}" HorizontalAlignment="Center">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel></WrapPanel>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid Width="220" Height="180" MaxWidth="250" Margin="3">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition ></RowDefinition>
-                        </Grid.RowDefinitions>
+                    <TextBox md:HintAssist.Hint="請輸入待辦標題" DockPanel.Dock="Top" Margin="20,0"></TextBox>
+                    <TextBox md:HintAssist.Hint="請輸入待辦內容" DockPanel.Dock="Top" Margin="20,0" MinHeight="100"></TextBox>
 
-                        <md:PopupBox Grid.Row="0" HorizontalAlignment="Right" Panel.ZIndex="1">
-                            <Button Content="刪除"></Button>
-                        </md:PopupBox>
-                        
-                        <Border Background="Green" Grid.RowSpan="2" CornerRadius="2" ></Border>
-                        
-                        <TextBlock Grid.Row="0" Text="{Binding Title}"  Margin="10,5" FontWeight="Bold"></TextBlock>
-                        <TextBlock Grid.Row="1" Text="{Binding Content}" Margin="10,5"></TextBlock>
+                    <Button Content="添加" DockPanel.Dock="Top" Margin="20,0"></Button>
+                </DockPanel>
+            </md:DrawerHost.RightDrawerContent>
 
-                        <Canvas ClipToBounds="True" Grid.RowSpan="2">
-                            <Border Canvas.Top="10" Canvas.Right="-50" Width="120"  Height="120" Background="#ffffff" CornerRadius="100" Opacity="0.1"></Border>
-                            <Border Canvas.Top="80" Canvas.Right="-30" Width="120"  Height="120" Background="#ffffff" CornerRadius="100" Opacity="0.1"></Border>
-                        </Canvas>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
+                <StackPanel Orientation="Horizontal" Margin="15,0,0,0">
+                    <TextBox VerticalAlignment="Center" md:HintAssist.Hint="查找待辦事項..." md:TextFieldAssist.HasClearButton="True"></TextBox>
+                    <TextBlock Text="篩選:" Margin="10,0" VerticalAlignment="Center"></TextBlock>
+                    <ComboBox SelectedIndex="0">
+                        <ComboBoxItem Content="全部"></ComboBoxItem>
+                        <ComboBoxItem Content="待辦"></ComboBoxItem>
+                        <ComboBoxItem Content="已完成"></ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <Button Content="添加待辦事項" HorizontalAlignment="Right" Margin="10,5" Command="{Binding ShowAddWaitComm}"></Button>
+
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding WaitList}" HorizontalAlignment="Center">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel></WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="220" Height="180" MaxWidth="250" Margin="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition ></RowDefinition>
+                                </Grid.RowDefinitions>
+
+                                <md:PopupBox Grid.Row="0" HorizontalAlignment="Right" Panel.ZIndex="1">
+                                    <Button Content="刪除"></Button>
+                                </md:PopupBox>
+
+                                <Border Background="Green" Grid.RowSpan="2" CornerRadius="2" ></Border>
+
+                                <TextBlock Grid.Row="0" Text="{Binding Title}"  Margin="10,5" FontWeight="Bold"></TextBlock>
+                                <TextBlock Grid.Row="1" Text="{Binding Content}" Margin="10,5"></TextBlock>
+
+                                <Canvas ClipToBounds="True" Grid.RowSpan="2">
+                                    <Border Canvas.Top="10" Canvas.Right="-50" Width="120"  Height="120" Background="#ffffff" CornerRadius="100" Opacity="0.1"></Border>
+                                    <Border Canvas.Top="80" Canvas.Right="-30" Width="120"  Height="120" Background="#ffffff" CornerRadius="100" Opacity="0.1"></Border>
+                                </Canvas>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </md:DrawerHost>
+    </md:DialogHost>
 </UserControl>
